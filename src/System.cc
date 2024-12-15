@@ -39,7 +39,7 @@ namespace ORB_SLAM3
 Verbose::eLevel Verbose::th = Verbose::VERBOSITY_NORMAL;
 
 System::System(const string &strVocFile, const string &strSettingsFile, const eSensor sensor,
-               const bool bUseViewer, const int initFr, const string &strSequence):
+               const bool bUseViewer, const int initFr, const string &strSequence, const string &strTrajDir):
     mSensor(sensor), mpViewer(static_cast<Viewer*>(NULL)), mbReset(false), mbResetActiveMap(false),
     mbActivateLocalizationMode(false), mbDeactivateLocalizationMode(false), mbShutDown(false)
 {
@@ -229,7 +229,7 @@ System::System(const string &strVocFile, const string &strSettingsFile, const eS
     if(bUseViewer)
     //if(false) // TODO
     {
-        mpViewer = new Viewer(this, mpFrameDrawer,mpMapDrawer,mpTracker,strSettingsFile,settings_);
+        mpViewer = new Viewer(this, mpFrameDrawer, mpMapDrawer, mpTracker, strSettingsFile, settings_, strTrajDir);
         mptViewer = new thread(&Viewer::Run, mpViewer);
         mpTracker->SetViewer(mpViewer);
         mpLoopCloser->mpViewer = mpViewer;

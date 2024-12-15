@@ -25,9 +25,11 @@
 namespace ORB_SLAM3
 {
 
-Viewer::Viewer(System* pSystem, FrameDrawer *pFrameDrawer, MapDrawer *pMapDrawer, Tracking *pTracking, const string &strSettingPath, Settings* settings):
+Viewer::Viewer(System* pSystem, FrameDrawer *pFrameDrawer, MapDrawer *pMapDrawer, 
+        Tracking *pTracking, const string &strSettingPath, Settings* settings, const string &strTrajDir):
+        
     both(false), mpSystem(pSystem), mpFrameDrawer(pFrameDrawer),mpMapDrawer(pMapDrawer), mpTracker(pTracking),
-    mbFinishRequested(false), mbFinished(true), mbStopped(true), mbStopRequested(false)
+    mbFinishRequested(false), mbFinished(true), mbStopped(true), mbStopRequested(false), mStrTrajDir(strTrajDir)
 {
     if(settings){
         newParameterLoader(settings);
@@ -54,6 +56,7 @@ Viewer::Viewer(System* pSystem, FrameDrawer *pFrameDrawer, MapDrawer *pMapDrawer
 
     mbStopTrack = false;
 }
+
 
 void Viewer::newParameterLoader(Settings *settings) {
     mImageViewerScale = 1.f;
@@ -363,8 +366,15 @@ void Viewer::Run()
             mpSystem->Shutdown();
 
             // Save camera trajectory
-            mpSystem->SaveTrajectoryEuRoC("CameraTrajectory.txt");
-            mpSystem->SaveKeyFrameTrajectoryEuRoC("KeyFrameTrajectory.txt");
+            std::string cameraTrajectoryPath = mStrTrajDir.empty() ? "CameraTrajectory.txt" : mStrTrajDir + "/CameraTrajectory.txt";
+            std::string keyFrameTrajectoryPath = mStrTrajDir.empty() ? "KeyFrameTrajectory.txt" : mStrTrajDir + "/KeyFrameTrajectory.txt";
+
+            mpSystem->SaveTrajectoryEuRoC(cameraTrajectoryPath);
+            mpSystem->SaveKeyFrameTrajectoryEuRoC(keyFrameTrajectoryPath);
+
+            // // Save camera trajectory
+            // mpSystem->SaveTrajectoryEuRoC("CameraTrajectory.txt");
+            // mpSystem->SaveKeyFrameTrajectoryEuRoC("KeyFrameTrajectory.txt");
             menuStop = false;
         }
 

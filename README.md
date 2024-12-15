@@ -23,3 +23,13 @@ chmod +x build.sh
 ./build.sh
 ```
 This will create **libORB_SLAM3.so**  at *lib* folder and the executables in *Examples* folder.
+
+Running with RGBD
+```bash
+./Examples_old/RGB-D/rgbd_realsense_D455_old Vocabulary/ORBvoc.txt ./Examples_old/RGB-D/RealSense_D455.yaml home
+```
+
+Running with RGBD + inertial
+```bash
+./Examples_old/RGB-D-Inertial/rgbd_inertial_realsense_D455_old Vocabulary/ORBvoc.txt ./Examples_old/RGB-D-Inertial/RealSense_D455.yaml
+```
