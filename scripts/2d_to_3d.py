@@ -50,7 +50,8 @@ def get_xyz(depth, intrinsic):
     return points_xyz
 
 def generate_point_cloud(rgb_path, depth_path, K):
-    rgb_image = cv2.imread(rgb_path)
+    bgr_image = cv2.imread(rgb_path)
+    rgb_image = cv2.cvtColor(bgr_image, cv2.COLOR_BGR2RGB)
     depth_image = cv2.imread(depth_path, cv2.IMREAD_UNCHANGED)
     depth_image = depth_image.astype(np.float32) / 1000.0
     mask = np.logical_and(depth_image > 0.3, depth_image < 3)
